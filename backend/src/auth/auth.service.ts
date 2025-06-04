@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -39,12 +43,12 @@ export class AuthService {
     });
 
     if (!user) {
-      return new Error('User not found');
+      throw new NotFoundException('User not found');
     }
 
     const passwordValid = await bcrypt.compare(dto.password, user.password);
     if (!passwordValid) {
-      return new Error('Invalid password');
+      throw new BadRequestException('Invalid password');
     }
 
     const payload = { sub: user.id, email: user.email };
