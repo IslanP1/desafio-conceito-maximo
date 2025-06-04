@@ -1,15 +1,32 @@
-/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
+  constructor(private readonly prismaService: PrismaService) {}
+
   async createUser(dto: CreateUserDto) {
-    // Here you would typically hash the password and save the user to the database
-    // For demonstration purposes, we'll just return the DTO
+    const hashedPassword = await bcrypt.hash(dto.password, 10);
+
+    const user = await this.prismaService.user.create({
+      data: {
+        name: dto.name,
+        email: dto.email,
+        cpf: dto.cpf,
+        password: hashedPassword,
+      },
+    });
+
+    const { password, ...result } = user;
     return {
       message: 'User created successfully',
-      user: dto,
+      user: result,
     };
   }
 }
