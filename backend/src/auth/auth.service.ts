@@ -27,6 +27,7 @@ export class AuthService {
         email: dto.email,
         cpf: dto.cpf,
         password: hashedPassword,
+        role: 'user', // Default role is 'user'
       },
     });
 

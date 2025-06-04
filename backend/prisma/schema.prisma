@@ -20,4 +20,5 @@ model User {
   email    String @unique
   cpf      String 
   password String
+  role     String @default("user")
 }
