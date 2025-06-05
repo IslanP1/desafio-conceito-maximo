@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Param,
   Patch,
   Post,
@@ -31,5 +32,11 @@ export class AuthController {
   @UseGuards(JwtGuard, AuthGuard)
   async updateRole(@Param('id') id: number, @Body() dto: UpdateUserDto) {
     return this.authService.updateUserRole(Number(id), dto.role);
+  }
+
+  @Get('users')
+  @UseGuards(JwtGuard, AuthGuard)
+  async getAllUsers() {
+    return this.authService.getAllUsers();
   }
 }
