@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import {
@@ -11,6 +10,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -60,6 +60,21 @@ export class AuthService {
       message: 'Login successful',
       user: { id: user.id, name: user.name, email: user.email },
       token,
+    };
+  }
+
+  async updateUserRole(dto: UpdateUserDto) {
+    const user = await this.prismaService.user.update({
+      where: { email: dto.email },
+      data: {
+        role: dto.role,
+      },
+    });
+
+    const { password, ...result } = user;
+    return {
+      message: 'User role updated successfully',
+      user: result,
     };
   }
 }
