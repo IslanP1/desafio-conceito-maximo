@@ -99,4 +99,13 @@ export class AuthService {
       users,
     };
   }
+
+  async deleteUser(id: number) {
+    const user = await this.prismaService.user.findUnique({ where: { id } });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+    await this.prismaService.user.delete({ where: { id } });
+    return { message: 'Usuário removido com sucesso' };
+  }
 }
