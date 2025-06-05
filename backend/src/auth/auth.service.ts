@@ -28,7 +28,7 @@ export class AuthService {
         email: dto.email,
         cpf: dto.cpf,
         password: hashedPassword,
-        role: 'user', // Default role is 'user'
+        role: 'USER', // Default role is 'user'
       },
     });
 
@@ -63,12 +63,18 @@ export class AuthService {
     };
   }
 
-  async updateUserRole(dto: UpdateUserDto) {
+  async updateUserRole(id: number, role: string) {
+    const userExists = await this.prismaService.user.findUnique({
+      where: { id },
+    });
+
+    if (!userExists) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
     const user = await this.prismaService.user.update({
-      where: { email: dto.email },
-      data: {
-        role: dto.role,
-      },
+      where: { id },
+      data: { role },
     });
 
     const { password, ...result } = user;

@@ -30,6 +30,6 @@ export class AuthController {
   @Patch('role/:id')
   @UseGuards(JwtGuard, AuthGuard)
   async updateRole(@Param('id') id: number, @Body() dto: UpdateUserDto) {
-    return this.authService.updateUserRole(dto);
+    return this.authService.updateUserRole(Number(id), dto.role);
   }
 }
