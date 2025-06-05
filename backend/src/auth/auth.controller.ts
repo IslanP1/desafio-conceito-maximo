@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -38,5 +39,11 @@ export class AuthController {
   @UseGuards(JwtGuard, AuthGuard)
   async getAllUsers() {
     return this.authService.getAllUsers();
+  }
+
+  @Delete('user/:id')
+  @UseGuards(JwtGuard, AuthGuard)
+  async deleteUser(@Param('id') id: number) {
+    return this.authService.deleteUser(Number(id));
   }
 }
