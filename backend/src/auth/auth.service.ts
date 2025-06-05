@@ -10,7 +10,6 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -81,6 +80,23 @@ export class AuthService {
     return {
       message: 'User role updated successfully',
       user: result,
+    };
+  }
+
+  async getAllUsers() {
+    const users = await this.prismaService.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        cpf: true,
+        role: true,
+      },
+    });
+
+    return {
+      message: 'Users retrieved successfully',
+      users,
     };
   }
 }
