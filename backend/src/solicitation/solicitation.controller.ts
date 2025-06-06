@@ -29,4 +29,6 @@ export class SolicitationController {
     }
     return this.soclicitationService.updateStatus(Number(id), dto);
   }
+
+  
 }

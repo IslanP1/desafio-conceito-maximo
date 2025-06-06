@@ -39,4 +39,14 @@ export class SolicitationService {
       data: { status: dto.status },
     });
   }
+
+  async findAll() {
+    return this.prismaService.solicitacao.findMany({
+      include: {
+        solicitante: {
+          select: { id: true },
+        },
+      }
+    });
+  }
 }
