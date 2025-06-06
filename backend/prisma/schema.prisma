@@ -27,3 +27,24 @@ model User {
   password String
   role     Role   @default(USER)
 }
+
+enum Status {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum TipoSolicitacao {
+  TROCA_LAMPADA
+  TAPA_BURACO
+}
+
+model Solicitacao {
+  id              Int             @id @default(autoincrement())
+  tipoSolicitacao TipoSolicitacao
+  endereco        String
+  descricao       String
+  nomeSolicitante String
+  cpfSolicitante  String
+  status          Status          @default(PENDING)
+}
