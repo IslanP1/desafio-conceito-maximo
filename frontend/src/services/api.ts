@@ -132,3 +132,17 @@ export async function updateUserRole(id: number, role: string, token: string) {
   }
   return response.json();
 }
+
+export async function deleteUser(id: number, token: string) {
+  const response = await fetch(`http://localhost:3000/auth/user/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Erro ao deletar usuário');
+  }
+  return response.json();
+}

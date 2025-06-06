@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
-import { getAllUsers, updateUserRole } from '../services/api';
+import { getAllUsers, updateUserRole, deleteUser } from '../services/api'
 
 export default function UserRoleManager() {
   const [users, setUsers] = useState<any[]>([]);
@@ -20,6 +20,21 @@ export default function UserRoleManager() {
       setUsers(data.users || []);
     } catch (err: any) {
       setMessage(err.message || 'Erro ao buscar usuários');
+    }
+  }
+
+  async function handleDeleteUser(id: number) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setMessage('Você precisa estar logado como ADMIN.');
+      return;
+    }
+    try {
+      await deleteUser(id, token);
+      setMessage('Usuário deletado com sucesso!');
+      fetchUsers();
+    } catch (err: any) {
+      setMessage(err.message || 'Erro ao deletar usuário');
     }
   }
 
@@ -82,9 +97,17 @@ export default function UserRoleManager() {
                     <button onClick={() => setEditingId(null)}>Cancelar</button>
                   </>
                 ) : (
-                  <button onClick={() => { setEditingId(u.id); setNewRole(u.role); }}>
-                    Alterar Role
-                  </button>
+                  <>
+                    <button onClick={() => { setEditingId(u.id); setNewRole(u.role); }}>
+                      Alterar Role
+                    </button>
+                    <button
+                      style={{ marginLeft: 8, color: 'white', background: 'red', border: 'none', borderRadius: 4, padding: '0.25rem 0.5rem', cursor: 'pointer' }}
+                      onClick={() => handleDeleteUser(u.id)}
+                    >
+                      Deletar
+                    </button>
+                  </>
                 )}
               </td>
             </tr>
