@@ -1,5 +1,6 @@
 import SolicitationForm from "../components/createSolicitation";
 import { useNavigate } from "react-router-dom";
+import UserSolicitations from "../components/listSolicitations";
 
 export default function Solicitation() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function Solicitation() {
           style={{ marginTop: '1rem', padding: '0.5rem 1rem', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
         >Área administrativa</button>
       )}
+      <UserSolicitations />
     </>
   );
 }
