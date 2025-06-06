@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { SolicitationService } from './solicitation.service';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { CreateSolicitationDto } from './dto/create-solicitation.dto';
@@ -32,10 +32,10 @@ export class SolicitationController {
 
   @UseGuards(JwtGuard)
   @Get()
-  async findAllAdmin(@Req() req) {
+  async findAllAdmin(@Req() req, @Query('tipo') tipo?: string) {
     if (req.user.role !== 'ADMIN') {
       throw new ForbiddenException('Apenas administradores podem visualizar todas as solicitações.');
     }
-    return this.soclicitationService.findAll();
+    return this.soclicitationService.findAll(tipo);
   }
 }

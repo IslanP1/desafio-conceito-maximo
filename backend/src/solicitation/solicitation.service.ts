@@ -40,8 +40,9 @@ export class SolicitationService {
     });
   }
 
-  async findAll() {
+  async findAll(tipo?: string) {
     return this.prismaService.solicitacao.findMany({
+      where: tipo ? { tipoSolicitacao: tipo as any } : {},
       include: {
         solicitante: {
           select: { id: true },
