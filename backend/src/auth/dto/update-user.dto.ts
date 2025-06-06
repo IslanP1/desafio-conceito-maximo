@@ -1,6 +1,6 @@
 import { IsIn } from 'class-validator';
 
 export class UpdateUserDto {
-  @IsIn(['user', 'admin'])
+  @IsIn(['USER', 'ADMIN'])
   role: string;
 }

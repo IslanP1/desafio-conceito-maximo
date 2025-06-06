@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import {
@@ -73,7 +74,7 @@ export class AuthService {
 
     const user = await this.prismaService.user.update({
       where: { id },
-      data: { role },
+      data: { role: role.toUpperCase() as any },
     });
 
     const { password, ...result } = user;
