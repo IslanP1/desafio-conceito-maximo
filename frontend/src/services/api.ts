@@ -146,3 +146,18 @@ export async function deleteUser(id: number, token: string) {
   }
   return response.json();
 }
+
+export async function getUserSolicitations(token: string) {
+  const response = await fetch('http://localhost:3000/solicitation/user', {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Erro ao buscar suas solicitações');
+  }
+
+  return response.json();
+}
