@@ -85,3 +85,21 @@ export async function updateSolicitationStatus(id: number, data: UpdateSolicitat
 
   return response.json();
 }
+
+export async function getAllSolicitations(token: string, tipo?: string) {
+  const url = tipo
+    ? `http://localhost:3000/solicitation?tipo=${encodeURIComponent(tipo)}`
+    : 'http://localhost:3000/solicitation';
+  const response = await fetch(url, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Erro ao buscar solicitações');
+  }
+
+  return response.json();
+}
