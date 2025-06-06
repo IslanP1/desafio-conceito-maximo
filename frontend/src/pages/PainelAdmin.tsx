@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import UserRoleManager from '../components/updateRoleUser';
 
 export default function PainelAdmin() {
   const role = localStorage.getItem('role');
@@ -15,6 +16,7 @@ export default function PainelAdmin() {
           >
             Listar Solicitações
           </button>
+          <UserRoleManager />
         </>
       )}
     </>
