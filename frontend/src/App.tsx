@@ -4,6 +4,7 @@ import LoginPage from './pages/Login';
 import Home from './pages/Home';
 import Solicitation from './pages/Solicitation';
 import SolicitationList from './pages/SolicitationRead';
+import PainelAdmin from './pages/PainelAdmin';
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/solicitation" element={<Solicitation />} />
       <Route path="/solicitation/list" element={<SolicitationList />} />
+      <Route path="/admin" element={<PainelAdmin />} />
     </Routes>
   );
 }

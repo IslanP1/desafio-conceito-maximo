@@ -9,21 +9,10 @@ export default function Solicitation() {
     <>
       <SolicitationForm />
       {role === 'ADMIN' && (
-        <>
-          <button
-            style={{ marginTop: 16 }}
-            onClick={() => navigate('/solicitation/update-status')}
-          >
-            Atualizar Status de Solicitação
-          </button>
-
-          <button
-            style={{ marginTop: 16 }}
-            onClick={() => navigate('/solicitation/list')}
-          >
-            Listar Solicitações
-          </button>
-        </>
+        <button
+          onClick={() => navigate('/admin')}
+          style={{ marginTop: '1rem', padding: '0.5rem 1rem', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+        >Área administrativa</button>
       )}
     </>
   );
