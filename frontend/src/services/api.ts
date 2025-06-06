@@ -116,3 +116,19 @@ export async function getAllUsers(token: string) {
   }
   return response.json();
 }
+
+export async function updateUserRole(id: number, role: string, token: string) {
+  const response = await fetch(`http://localhost:3000/auth/role/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({ role }),
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Erro ao atualizar role');
+  }
+  return response.json();
+}
