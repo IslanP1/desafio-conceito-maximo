@@ -10,7 +10,7 @@ import { UpdateSolicitationStatusDto } from './dto/update-solicitation.dto';
 
 @Injectable()
 export class SolicitationService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) { }
 
   async create(dto: CreateSolicitationDto, userId: number) {
     const user = await this.prismaService.user.findUnique({
@@ -60,5 +60,11 @@ export class SolicitationService {
         },
       }
     });
+  }
+
+  async delete(id: number) {
+    const solicitacao = await this.prismaService.solicitacao.findUnique({ where: { id } });
+    if (!solicitacao) throw new NotFoundException('Solicitação não encontrada');
+    return this.prismaService.solicitacao.delete({ where: { id } });
   }
 }

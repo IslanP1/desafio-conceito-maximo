@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Body, Controller, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { SolicitationService } from './solicitation.service';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { CreateSolicitationDto } from './dto/create-solicitation.dto';
@@ -44,5 +44,18 @@ export class SolicitationController {
   async findAllUser(@Req() req) {
     const userId = req.user.userId;
     return this.soclicitationService.findAllUser(userId);
+  }
+
+  @UseGuards(JwtGuard)
+  @Delete(':id')
+  async delete(@Param('id') id: number, @Req() req) {
+    if (req.user.role !== 'ADMIN') {
+      throw new ForbiddenException('Apenas administradores podem deletar solicitações.');
+    }
+    const solicitacao = await this.soclicitationService.findAllUser(Number(id));
+    if (!solicitacao) {
+      throw new NotFoundException('Solicitação não encontrada');
+    }
+    return this.soclicitationService.delete(Number(id));
   }
 }
