@@ -103,3 +103,16 @@ export async function getAllSolicitations(token: string, tipo?: string) {
 
   return response.json();
 }
+
+export async function getAllUsers(token: string) {
+  const response = await fetch('http://localhost:3000/auth/users', {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Erro ao buscar usuários');
+  }
+  return response.json();
+}
