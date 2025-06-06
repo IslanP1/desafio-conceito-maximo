@@ -26,6 +26,8 @@ model User {
   cpf      String
   password String
   role     Role   @default(USER)
+
+  Solicitacao Solicitacao[]
 }
 
 enum Status {
@@ -44,6 +46,8 @@ model Solicitacao {
   tipoSolicitacao TipoSolicitacao
   endereco        String
   descricao       String
+  solicitanteId   Int
+  solicitante     User            @relation(fields: [solicitanteId], references: [id])
   nomeSolicitante String
   cpfSolicitante  String
   status          Status          @default(PENDING)

@@ -21,6 +21,9 @@ export class SolicitationService {
         descricao: dto.descricao,
         nomeSolicitante: user?.name ?? '',
         cpfSolicitante: user?.cpf ?? '',
+        solicitante: {
+          connect: { id: userId },
+        },
       },
     });
   }
