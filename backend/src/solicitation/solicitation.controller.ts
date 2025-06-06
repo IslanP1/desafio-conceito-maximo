@@ -8,7 +8,7 @@ import { SolicitationService } from './solicitation.service';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { CreateSolicitationDto } from './dto/create-solicitation.dto';
 import { UpdateSolicitationStatusDto } from './dto/update-solicitation.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { ForbiddenException } from '@nestjs/common';
 
 @Controller('solicitation')
 export class SolicitationController {
@@ -21,9 +21,12 @@ export class SolicitationController {
     return this.soclicitationService.create(dto, userId);
   }
   
-  @UseGuards(JwtGuard, AuthGuard)
-  @Patch(':id/status')
-  async updateStatus(@Param('id') id: number, @Body() dto: UpdateSolicitationStatusDto) {
+  @UseGuards(JwtGuard)
+  @Patch('status/:id')
+  async updateStatus(@Param('id') id: number, @Body() dto: UpdateSolicitationStatusDto, @Req() req) {
+    if (req.user.role !== 'ADMIN') {
+      throw new ForbiddenException('Apenas administradores podem alterar o status.');
+    }
     return this.soclicitationService.updateStatus(Number(id), dto);
   }
 }

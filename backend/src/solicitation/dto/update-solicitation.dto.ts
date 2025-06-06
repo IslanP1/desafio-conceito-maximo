@@ -2,8 +2,8 @@ import { IsEnum } from 'class-validator';
 
 export enum Status {
   PENDING = 'PENDING',
-  APPROVED = 'APPROVED',
-  REJECTED = 'REJECTED',
+  GOING = 'GOING',
+  COMPLETED = 'COMPLETED',
 }
 
 export class UpdateSolicitationStatusDto {

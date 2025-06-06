@@ -32,8 +32,8 @@ model User {
 
 enum Status {
   PENDING
-  APPROVED
-  REJECTED
+  GOING
+  COMPLETED
 }
 
 enum TipoSolicitacao {
