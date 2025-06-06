@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../services/api';
 
 export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [message, setMessage] = useState('');
   const [token, setToken] = useState('');
+  const navigate = useNavigate();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -16,10 +18,11 @@ export default function Login() {
     setMessage('');
     try {
       const data = await loginUser(form);
-      setToken(data.access_token);
+      console.log(data.token);
+      setToken(data.token);
       setMessage('Login realizado com sucesso!');
-      // Você pode salvar o token no localStorage se quiser manter o usuário logado
-      localStorage.setItem('token', data.access_token);
+      localStorage.setItem('token', data.token);
+      navigate('/solicitation'); // Redireciona após login
     } catch (err: any) {
       setMessage(err.message || 'Erro ao fazer login');
     }

@@ -10,6 +10,12 @@ export interface LoginUserData {
   password: string;
 }
 
+export interface CreateSolicitationData {
+  tipoSolicitacao: 'TROCA_LAMPADA' | 'TAPA_BURACO';
+  endereco: string;
+  descricao: string;
+}
+
 export async function registerUser(data: RegisterUserData) {
   const response = await fetch('http://localhost:3000/auth/register', {
     method: 'POST',
@@ -35,6 +41,24 @@ export async function loginUser(data: LoginUserData) {
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.message || 'Erro ao fazer login');
+  }
+
+  return response.json();
+}
+
+export async function createSolicitation(data: CreateSolicitationData, token: string) {
+  const response = await fetch('http://localhost:3000/solicitation', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Erro ao cadastrar solicitação');
   }
 
   return response.json();
