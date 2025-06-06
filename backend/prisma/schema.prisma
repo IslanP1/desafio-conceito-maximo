@@ -47,7 +47,7 @@ model Solicitacao {
   endereco        String
   descricao       String
   solicitanteId   Int
-  solicitante     User            @relation(fields: [solicitanteId], references: [id])
+  solicitante     User            @relation(fields: [solicitanteId], references: [id], onDelete: Cascade)
   nomeSolicitante String
   cpfSolicitante  String
   status          Status          @default(PENDING)
