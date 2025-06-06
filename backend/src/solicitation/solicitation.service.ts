@@ -50,4 +50,15 @@ export class SolicitationService {
       }
     });
   }
+
+  async findAllUser(userId: number) {
+    return this.prismaService.solicitacao.findMany({
+      where: { solicitanteId: userId },
+      include: {
+        solicitante: {
+          select: { id: true },
+        },
+      }
+    });
+  }
 }

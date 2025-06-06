@@ -38,4 +38,11 @@ export class SolicitationController {
     }
     return this.soclicitationService.findAll(tipo);
   }
+
+  @UseGuards(JwtGuard)
+  @Get('user')
+  async findAllUser(@Req() req) {
+    const userId = req.user.userId;
+    return this.soclicitationService.findAllUser(userId);
+  }
 }
