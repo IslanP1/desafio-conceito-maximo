@@ -3,6 +3,7 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/Login';
 import Home from './pages/Home';
 import Solicitation from './pages/Solicitation';
+import SolicitationUpdate from './pages/SolicitationUpdate';
 
 export default function App() {
   return (
@@ -11,6 +12,7 @@ export default function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/solicitation" element={<Solicitation />} />
+      <Route path="/solicitation/update-status" element={<SolicitationUpdate/>} />
     </Routes>
   );
 }

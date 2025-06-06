@@ -22,6 +22,8 @@ export default function Login() {
       setToken(data.token);
       setMessage('Login realizado com sucesso!');
       localStorage.setItem('token', data.token);
+      localStorage.setItem('role', data.role); // Salva a role do usuário
+      console.log(data);
       navigate('/solicitation'); // Redireciona após login
     } catch (err: any) {
       setMessage(err.message || 'Erro ao fazer login');
