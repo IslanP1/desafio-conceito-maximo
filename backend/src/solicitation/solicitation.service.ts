@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateSolicitationDto } from './dto/create-solicitation.dto';
+import { UpdateSolicitationStatusDto } from './dto/update-solicitation.dto';
 
 @Injectable()
 export class SolicitationService {
@@ -25,6 +28,15 @@ export class SolicitationService {
           connect: { id: userId },
         },
       },
+    });
+  }
+
+  async updateStatus(id: number, dto: UpdateSolicitationStatusDto) {
+    const solicitacao = await this.prismaService.solicitacao.findUnique({ where: { id } });
+    if (!solicitacao) throw new NotFoundException('Solicitação não encontrada');
+    return this.prismaService.solicitacao.update({
+      where: { id },
+      data: { status: dto.status },
     });
   }
 }
