@@ -16,6 +16,10 @@ export interface CreateSolicitationData {
   descricao: string;
 }
 
+export interface UpdateSolicitationStatusData {
+  status: 'PENDING' | 'GOING' | 'COMPLETED';
+}
+
 export async function registerUser(data: RegisterUserData) {
   const response = await fetch('http://localhost:3000/auth/register', {
     method: 'POST',
@@ -59,6 +63,24 @@ export async function createSolicitation(data: CreateSolicitationData, token: st
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.message || 'Erro ao cadastrar solicitação');
+  }
+
+  return response.json();
+}
+
+export async function updateSolicitationStatus(id: number, data: UpdateSolicitationStatusData, token: string) {
+  const response = await fetch(`http://localhost:3000/solicitation/status/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Erro ao atualizar status');
   }
 
   return response.json();
