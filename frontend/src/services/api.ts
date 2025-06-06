@@ -161,3 +161,17 @@ export async function getUserSolicitations(token: string) {
 
   return response.json();
 }
+
+export async function deleteSolicitation(id: number, token: string) {
+  const response = await fetch(`http://localhost:3000/solicitation/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Erro ao deletar solicitação');
+  }
+  return response.json();
+}
